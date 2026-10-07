@@ -23,6 +23,8 @@ Route::middleware('auth.custom')->group(function () {
 
     Route::post('/cart/remove/{id}', [CartController::class,'remove'])->name('cart.remove');
 
+    Route::post('/cart/update/{id}', [CartController::class,'update'])->name('cart.update');
+
     Route::post('/checkout', [CheckoutController::class,'checkout'])->name('checkout');
 
     Route::get('/my-orders', [OrderController::class,'myOrders'])->name('my.orders');

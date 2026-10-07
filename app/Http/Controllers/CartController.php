@@ -57,6 +57,25 @@ class CartController extends Controller
         );
     }
 
+    public function update($id, \Illuminate\Http\Request $request)
+    {
+        $request->validate(['quantity' => 'required|integer|min:1']);
+
+        $cartItem = CartItem::findOrFail($id);
+
+        $product = $cartItem->product;
+
+        if ($request->quantity > $product->stock) {
+            return redirect()->back()
+                ->withErrors('Quantity exceeds available stock (' . $product->stock . ').');
+        }
+
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+
+        return redirect()->back()->with('success', 'Cart updated.');
+    }
+
     public function remove($id)
     {
         $cartItem = CartItem::findOrFail($id);

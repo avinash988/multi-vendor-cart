@@ -63,13 +63,13 @@
                     <i class="fas fa-shopping-cart me-1"></i>Cart
                 </a>
 
+                <a href="/my-orders" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-box me-1"></i>My Orders
+                </a>
+
                 @if(session('user_role') == 'admin')
                     <a href="/admin/orders" class="btn btn-outline-info btn-sm">
                         <i class="fas fa-chart-bar me-1"></i>Admin
-                    </a>
-                @else
-                    <a href="/my-orders" class="btn btn-outline-light btn-sm">
-                        <i class="fas fa-box me-1"></i>Orders
                     </a>
                 @endif
 
@@ -106,5 +106,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@stack('scripts')
 </body>
 </html>

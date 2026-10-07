@@ -44,7 +44,14 @@
                                 <small class="text-muted"><i class="fas fa-store me-1" style="color:#ff6b35;font-size:11px;"></i>{{ $item->product->vendor->name }}</small>
                             </td>
                             <td class="py-3 align-middle">
-                                <span class="badge rounded-pill" style="background:#e8f4fd;color:#0f3460;font-size:13px;padding:5px 12px;">{{ $item->quantity }}</span>
+                                <form action="/cart/update/{{ $item->id }}" method="POST" class="d-flex align-items-center gap-1">
+                                    @csrf
+                                    <button type="button" onclick="changeQty(this, -1)" class="btn btn-sm" style="background:#f0f0f0;border:none;border-radius:6px;width:28px;height:28px;padding:0;font-size:16px;line-height:1;">−</button>
+                                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}"
+                                           style="width:50px;text-align:center;border:1.5px solid #e0e0e0;border-radius:8px;padding:3px;font-size:14px;font-weight:600;">
+                                    <button type="button" onclick="changeQty(this, 1)" class="btn btn-sm" style="background:#f0f0f0;border:none;border-radius:6px;width:28px;height:28px;padding:0;font-size:16px;line-height:1;">+</button>
+                                    <button type="submit" class="btn btn-sm ms-1" style="background:#0f3460;color:white;border:none;border-radius:6px;padding:4px 8px;font-size:11px;">Update</button>
+                                </form>
                             </td>
                             <td class="py-3 align-middle" style="color:#ff6b35;font-weight:600;">₹{{ number_format($item->product->price, 2) }}</td>
                             <td class="py-3 align-middle fw-700" style="font-weight:700;color:#1a1a2e;">₹{{ number_format($subtotal, 2) }}</td>
@@ -120,5 +127,16 @@
 </div>
 
 @endif
+
+@push('scripts')
+<script>
+function changeQty(btn, delta) {
+    const input = btn.parentElement.querySelector('input[name="quantity"]');
+    const val = parseInt(input.value) + delta;
+    const max = parseInt(input.max);
+    if (val >= 1 && val <= max) input.value = val;
+}
+</script>
+@endpush
 
 @endsection
